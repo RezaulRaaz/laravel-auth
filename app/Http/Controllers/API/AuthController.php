@@ -58,11 +58,16 @@ class AuthController extends Controller
     }
 
    public function signup(Request $request){
-       $validator = $request->validate([
-        'firstName'=>'required',
-        'email'=>'required',
-        'password'=>'required|min:8',
-       ]);
+
+        $messages=[
+            'email.required'=>"please enter email",
+            'email.email'=>'please enter valid email',
+        ];
+        $validator=Validator::make($request->all(),[
+            'firstName'=>'required',
+            'email'=>'required|email',
+            'password'=>'required|min:8',
+        ],$messages);
         if(!$validator){
             return response()->json([
                 'message'=>'please provide information correctly',
